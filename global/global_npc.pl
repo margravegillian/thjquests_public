@@ -140,6 +140,15 @@ sub EVENT_AGGRO {
     }
 }
 
+sub EVENT_SIGNAL {
+    if ($signal == 66666) {
+        my $expedition = quest::get_expedition();
+        if ($expedition) {
+            plugin::ScaleInstanceNPC($npc, $expedition->GetMemberCount());
+        }
+    }
+}
+
 sub EVENT_ITEM {
     plugin::CustomEventHandinEntry();
 }
