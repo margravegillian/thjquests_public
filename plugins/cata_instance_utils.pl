@@ -93,12 +93,7 @@ sub OfferStandardInstance {
 }
 
 sub ScaleInstanceNPC {
-	if (!plugin::IsTHJ()) {
-		return;
-	}
-
 	my $instanceversion = plugin::val('$instanceversion');
-
 	if ($instanceversion != quest::get_rule("Custom:StaticInstanceVersion")) {
 		return;
 	}
@@ -112,7 +107,7 @@ sub ScaleInstanceNPC {
 
 	my $scale_percentage = 0.25;
 	if ($npc->GetEntityVariable("scale_percentage")) {
-		$scale_percentage = $npc->GetEntityVariable("scale_percentage")
+		$scale_percentage = $npc->GetEntityVariable("scale_percentage");
 	}
 
 	$player_count -= 2;
@@ -145,7 +140,6 @@ sub ScaleInstanceNPC {
 	my $new_max_hp = ceil($npc->GetEntityVariable("original_max_hp") * $scale_factor);
 	my $hp_ratio	 = $npc->GetHPRatio();
 	$npc->ModifyNPCStat("max_hp", $new_max_hp);
-
 	$npc->SetHP($npc->GetMaxHP() * $hp_ratio / 100);
 
 	my $new_max_hit = ceil($npc->GetEntityVariable("original_max_hit") * $scale_factor);
