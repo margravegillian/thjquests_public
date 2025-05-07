@@ -87,6 +87,7 @@ end
 
 function event_proximity_say(e)
   if (e.message:findi("return")) then
-    e.other:MovePCInstance(294, instance_id, 500, -615, -50, 286 ); -- needs_heading_validation
+	  instance_id = eq.get_zone_instance_id();
+    e.other:MovePCInstance(294, instance_id, 500.00, -615.00, -50.00, 286.00 ); -- needs_heading_validation
   end
 end

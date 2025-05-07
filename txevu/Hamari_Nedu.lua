@@ -33,9 +33,7 @@ function event_say(e)
 		local is_gm = e.other:GetGM();
 
 		if e.other:HasItem(64034) then
-			if not is_gm and e.other:GetGroupMemberCount() < 1 then
-				e.other:Message(MT.NPCQuestSay, "Hamari Nedu says, 'I'm sorry, but you don't have enough comrades with you to venture into this dangerous area. Come back when you have at least eighteen friends to join you on this perilous journey.")
-			elseif not is_gm and e.other:DoesAnyPartyMemberHaveLockout(tacvi, "Replay Timer", 54) then
+			if not is_gm and e.other:DoesAnyPartyMemberHaveLockout(tacvi, "Replay Timer", 54) then
 				e.other:Message(MT.NPCQuestSay, "Hamari Nedu says, 'I'm afraid I cannot allow you to begin, someone in your party has been on this expedition too recently and cannot yet go again.'")
 			else
 				e.other:Message(MT.NPCQuestSay, "Hamari Nedu says, 'Place your hands on one of the altars behind me and the way will be revealed. Be wary for you are about to encounter some of the most vicious trusik known. If for any reason you wish to return, place your hands on the golem within the temple.'");
