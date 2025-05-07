@@ -74,32 +74,32 @@ function process_wave()
 	elseif round == 1 then
 		if wave < 10 then
 			spawn_trash(round);
-			return 120;
+			return 30;
 		else
 			spawn_boss(round);
 			round, wave = end_round(round, wave);
-			return 300;
+			return 120;
 		end
 	elseif round == 2 then
-		if wave < 7 or (wave > 7 and wave < 14) then
+		if wave < 5 or (wave > 5 and wave < 10) then
 			spawn_trash(round);
-			return 90;
-		elseif wave == 7 then
+			return 30;
+		elseif wave == 5 then
 			spawn_mini();
 			return 90;
 		else
 			spawn_boss(round);
 			round, wave = end_round(round, wave);
-			return 300;
+			return 120;
 		end
 	elseif round >= 3 and round <= 6 then
-		if wave == 20 then
+		if wave == 15 then
 			spawn_boss(round);
 			round, wave = end_round(round, wave);
-			return math.random(300, 500);
+			return math.random(120, 300);
 		elseif wave % 5 == 0 then
 			spawn_mini();
-			return 60;
+			return 90;
 		else
 			spawn_trash(round);
 			return 60;
