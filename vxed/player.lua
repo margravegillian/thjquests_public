@@ -17,7 +17,7 @@ function event_enter_zone(e)
 end
 
 function event_loot(e)
-	if(s.self:HasClass(Class.PALADIN) and e.item:GetID() == 69944 and e.self:HasItem(69924)) then
+	if(e.self:HasClass(Class.PALADIN) and e.item:GetID() == 69944 and e.self:HasItem(69924)) then
 		local qglobals = eq.get_qglobals(e.self);
 		if(qglobals["paladin_epic"] >= "5" and qglobals["paladin_epic_vxed"] == nil ) then
 			eq.spawn2(283157,0,0,e.self:GetX(),e.self:GetY(),e.self:GetZ(),e.self:GetHeading()); -- #a chest (Epic 1.5)

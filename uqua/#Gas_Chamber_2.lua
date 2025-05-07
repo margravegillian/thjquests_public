@@ -21,7 +21,6 @@ function event_timer(e)
 
 	if e.timer == "gaschamber" then
 		started = true;
-
 		eq.zone_emote(MT.White,"From somewhere behind the walls there is a deep rumbling.");
 
 		if rand_emote == 1 then
@@ -29,7 +28,7 @@ function event_timer(e)
 				emote_pc_1:Message(MT.Yellow,"Out of the corner of your eye you perceive movement. Within the recession on the door a mechanical lock rotated counter-clockwise. It was visible for only a fraction of a second, but that was long enough to make an educated guess to which key it now accepts.")
 				emote_pc_1:Message(MT.Yellow,"The Cracked Key must unlock the door to the next room.")
 			end
-			if emote_pc_2.valid and emote_pc_1 ~= emote_pc_2 then
+			if emote_pc_2.valid and emote_pc_1:GetID() ~= emote_pc_2:GetID() then
 				emote_pc_2:Message(MT.Yellow,"Amidst the ambient noise of grinding stone, your sharp hearing picks up the sound of several gears rotating into place. The pattern of repetitive clicks suddenly makes sense.")
 				emote_pc_2:Message(MT.Yellow,"It must be either the Cracked Key or Dusty Key that unlocks the door to the next room.")
 			end
@@ -39,7 +38,7 @@ function event_timer(e)
 				emote_pc_1:Message(MT.Yellow,"Out of the corner of your eye you perceive movement. Within the recession on the door a mechanical lock rotated counter-clockwise. It was visible for only a fraction of a second, but that was long enough to make an educated guess to which key it now accepts.")
 				emote_pc_1:Message(MT.Yellow,"The Dusty Key must unlock the door to the next room.")
 			end
-			if emote_pc_2.valid and emote_pc_1 ~= emote_pc_2 then
+			if emote_pc_2.valid and emote_pc_1:GetID() ~= emote_pc_2:GetID() then
 				emote_pc_2:Message(MT.Yellow,"Amidst the ambient noise of grinding stone, your sharp hearing picks up the sound of several gears rotating into place. The pattern of repetitive clicks suddenly makes sense.")
 				emote_pc_2:Message(MT.Yellow,"It must be either the Polished Key or Dusty Key that unlocks the door to the next room.")
 			end
@@ -49,7 +48,7 @@ function event_timer(e)
 				emote_pc_1:Message(MT.Yellow,"Out of the corner of your eye you perceive movement. Within the recession on the door a mechanical lock rotated counter-clockwise. It was visible for only a fraction of a second, but that was long enough to make an educated guess to which key it now accepts.")
 				emote_pc_1:Message(MT.Yellow,"The Polished Key must unlock the door to the next room.")
 			end
-			if emote_pc_2.valid and emote_pc_1 ~= emote_pc_2 then
+			if emote_pc_2.valid and emote_pc_1:GetID() ~= emote_pc_2:GetID() then
 				emote_pc_2:Message(MT.Yellow,"Amidst the ambient noise of grinding stone, your sharp hearing picks up the sound of several gears rotating into place. The pattern of repetitive clicks suddenly makes sense.")
 				emote_pc_2:Message(MT.Yellow,"It must be either the Cracked Key or Jagged Key that unlocks the door to the next room.")
 			end
@@ -59,7 +58,7 @@ function event_timer(e)
 				emote_pc_1:Message(MT.Yellow,"Out of the corner of your eye you perceive movement. Within the recession on the door a mechanical lock rotated counter-clockwise. It was visible for only a fraction of a second, but that was long enough to make an educated guess to which key it now accepts.")
 				emote_pc_1:Message(MT.Yellow,"The Jagged Key must unlock the door to the next room.")
 			end
-			if emote_pc_2.valid and emote_pc_1 ~= emote_pc_2 then
+			if emote_pc_2.valid and emote_pc_1:GetID() ~= emote_pc_2:GetID() then
 				emote_pc_2:Message(MT.Yellow,"Amidst the ambient noise of grinding stone, your sharp hearing picks up the sound of several gears rotating into place. The pattern of repetitive clicks suddenly makes sense.")
 				emote_pc_2:Message(MT.Yellow,"It must be either the Cracked Key or Polished Key that unlocks the door to the next room.")
 			end
@@ -75,6 +74,7 @@ function event_timer(e)
 			eq.stop_timer("gaschamber");
 		else 
 			count = count + 1;
+			eq.set_timer("gaschamber", 12 * 1000);
 		end
 	elseif e.timer == "restart" then
 		eq.zone_emote(MT.Yellow,"You hear a series of clicks that indicate the intricate trap has reset.");
@@ -85,12 +85,13 @@ function event_timer(e)
 end
 
 function event_enter(e)
+	eq.debug("Gas Chamber 2 Entered");
 	if completed then
 		eq.get_entity_list():FindDoor(12):SetLockPick(0);
 		eq.get_entity_list():FindDoor(12):ForceOpen(e.self);
 		eq.signal(292081,1); -- #Gas_Chamber_Cheater
 	elseif not started then
-		eq.set_timer("gaschamber", 60 * 1000); -- 60 Seconds
+		eq.set_timer("gaschamber", 12 * 1000); -- 60 Seconds
 	end		
 end
 

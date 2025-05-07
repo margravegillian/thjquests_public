@@ -13,7 +13,7 @@ end
 
 
 function event_loot(e)
-	if(e.self:HasClass(Class.Class.MAGICIAN) and e.item:GetID() == 19447 and e.corpse:GetNPCTypeID()==284105) then
+	if(e.self:HasClass(Class.MAGICIAN) and e.item:GetID() == 19447 and e.corpse:GetNPCTypeID()==284105) then
 		local qglobals = eq.get_qglobals(e.self);
 		if(qglobals["mage_epic"] == "10") then
 			return 0;
