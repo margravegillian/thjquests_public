@@ -1,14 +1,9 @@
--- Global state
-local active_party = false
-local mephit_kill_count = 0
-local boss_spawned = false
-local required_kills = 8 -- Adjust as needed
-
 -- Constants for NPC IDs
 local MEPHIT_FIRE = 1120001288
 local MEPHIT_SMOKE = 1120001289
 local BOSS_ID = 210245
 local VFX_ID = 98207
+local REQUIRED_KILLS = 8
 
 -- Utility: Move solo player or group (no raids)
 function MovePlayerGroupOrRaid(player, zone_id, x, y, z, h)
@@ -46,7 +41,8 @@ function event_say(e)
     e.self:Say("As I had hoped. I regret that I have only enough strength to send four parties through the brush to the other side, and only one party at a time. When each party is ready to move forth, tell me that [" .. eq.say_link("We are ready", false, "you are ready") .. "] and I will make a clearing for you to go through. Be wary!")
 
   elseif e.message:findi("we are ready") then
-    if active_party then
+    local active_party = eq.get_global("forest_active_party")
+    if active_party == "1" then
       e.self:Say("I’m sorry, but I’ve already sent a group through. You must wait until they return before I can send another.")
       return
     end
@@ -54,13 +50,13 @@ function event_say(e)
     e.self:Say("Then I wish you luck, brave adventurer. May the forest spirits watch over you.")
     e.self:Emote("A powerfully green aura surrounds Relv as he opens a small rift in the brushes beyond, then sends you and your party forth into the burning forest beyond.")
 
-    active_party = true
-    mephit_kill_count = 0
-    boss_spawned = false
+    eq.set_global("forest_active_party", "1", 7, "D30")
+    eq.set_global("forest_mephit_kills", "0", 7, "D30")
+    eq.set_global("forest_boss_spawned", "0", 7, "D30")
 
     MovePlayerGroupOrRaid(e.other, 0, -156.593, 5090.91, -555.29, 431)
 
-    -- Spawn mephits (can be randomized or expanded later)
+    -- Spawn mephits
     eq.spawn2(MEPHIT_FIRE, 0, 0, -610.30, 5252.94, -492, 10)
     eq.spawn2(MEPHIT_SMOKE, 0, 0, -867.62, 5038.49, -492.10, 0)
     eq.spawn2(MEPHIT_FIRE, 0, 0, -744.74, 5269.97, -548.13, 0)
@@ -76,28 +72,25 @@ end
 function event_death(e)
   local npc_id = e.self:GetNPCTypeID()
 
-  if (npc_id == MEPHIT_FIRE or npc_id == MEPHIT_SMOKE) and not boss_spawned then
-    mephit_kill_count = mephit_kill_count + 1
-    eq.zone_emote(15, "The forest trembles as another mephit falls! (" .. mephit_kill_count .. "/" .. required_kills .. ")")
+  if npc_id == MEPHIT_FIRE or npc_id == MEPHIT_SMOKE then
+    local kill_count = tonumber(eq.get_global("forest_mephit_kills")) or 0
+    local boss_spawned = eq.get_global("forest_boss_spawned") == "1"
 
-    if mephit_kill_count >= required_kills and not boss_spawned then
-      local x = e.self:GetX()
-      local y = e.self:GetY()
-      local z = e.self:GetZ()
-      local h = e.self:GetHeading()
+    if not boss_spawned then
+      kill_count = kill_count + 1
+      eq.set_global("forest_mephit_kills", tostring(kill_count), 7, "D30")
+      eq.zone_emote(15, "The forest trembles as another mephit falls! (" .. kill_count .. "/" .. REQUIRED_KILLS .. ")")
 
-      eq.unique_spawn(BOSS_ID, 0, 0, x, y, z, h)
-      boss_spawned = true
+      if kill_count >= REQUIRED_KILLS then
+        eq.set_global("forest_boss_spawned", "1", 7, "D30")
+        eq.unique_spawn(BOSS_ID, 0, 0, e.self:GetX(), e.self:GetY(), e.self:GetZ(), e.self:GetHeading())
+      end
     end
 
   elseif npc_id == BOSS_ID then
     eq.zone_emote(15, "The forest calms as the source of the destruction is silenced.")
-
-    -- Spawn visual effect or reward chest
     eq.spawn2(VFX_ID, 0, 0, e.self:GetX(), e.self:GetY(), e.self:GetZ(), e.self:GetHeading())
-
-    -- Start a timer before resetting the encounter for the next group
-    eq.set_timer("reset_party", 60000) -- 60 seconds
+    eq.set_timer("reset_party", 60000)
   end
 end
 
@@ -105,8 +98,9 @@ end
 function event_timer(e)
   if e.timer == "reset_party" then
     eq.stop_timer("reset_party")
-    active_party = false
-    boss_spawned = false
-    mephit_kill_count = 0
+    eq.set_global("forest_active_party", "0", 7, "D30")
+    eq.set_global("forest_mephit_kills", "0", 7, "D30")
+    eq.set_global("forest_boss_spawned", "0", 7, "D30")
   end
 end
+
