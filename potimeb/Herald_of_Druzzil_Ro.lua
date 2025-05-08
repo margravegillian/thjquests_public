@@ -66,18 +66,16 @@ function progressToP4()
 	eq.get_zone():SetVariable("Phase","3")
 	eq.get_entity_list():GetSpawnByID(157394):Repop(2) -- NPC: zone_status
 	eq.get_entity_list():GetSpawnByID(157395):Repop(2) -- NPC: zone_emoter
+	eq.get_entity_list():GetSpawnByID(3388052):Repop(2) -- NPC: Herald of Druzzil Ro
 end
 
 function depopAllP1Mobs()
-	local p1_mobs = {223088,223089,223095,223234,223235,223236,223237,223090,223094,223163, 223106,223119,223147,223092,223093,223104,223091,223100,223115,223105,223116,223121,223122,223149,223129,223150,223152,223103,223239,223087,223226,223111,223120,223240,223241,223169,223170,223171,223172,223173}
 	-- disable all spawn conditions
 	for i = 1, 10, 1 do
 		eq.spawn_condition("potimeb",eq.get_zone_instance_id(),i,0)
 	end
 	-- depop all p1 mobs and controllers
-	for index, mob in ipairs(p1_mobs) do
-		eq.depop_all(mob)
-	end
+	eq.depop_zone(false)
 end
 
 function movePlayer(e, x, y, z, h)
