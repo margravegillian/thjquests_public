@@ -94,6 +94,12 @@ function event_death(e)
   end
 end
 
+function event_spawn(e)
+  local x, y = e.self:GetX(), e.self:GetY()
+  e.self:SetBodyType(BT.Humanoid, true);
+  e.self:SetTargetable(true);
+end
+
 -- Timer event to reset party lock
 function event_timer(e)
   if e.timer == "reset_party" then
