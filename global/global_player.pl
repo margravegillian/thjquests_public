@@ -177,13 +177,13 @@ sub EVENT_LEVEL_UP {
     }
     
     my $new_level = $client->GetLevel();
-    if (($new_level % 10 == 0) || $new_level == 5 || $new_level == $client->GetBucket("CharMaxLevel")) {
+    my $char_max_level = $client->GetBucket("CharMaxLevel");
+    
+    if ($new_level == $char_max_level) {
         my $name = $client->GetCleanName();
         my $full_class_name = plugin::GetPrettyClassString($client);
 
-        my $capped = ($new_level == ($client->GetBucket("CharMaxLevel") || 0) ? " (Level Cap)" : "");
-
-        plugin::WorldAnnounce("$name ($full_class_name) has reached Level $new_level$capped.");
+        plugin::WorldAnnounce("$name ($full_class_name) has reached Level $new_level.");
     }
 }
 
