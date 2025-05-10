@@ -10,13 +10,13 @@ end
 
 function event_timer(e)
 	if e.timer == "banish" then
-		local cur_target = e.self:GetHateTop():CastToClient();
+		local cur_target = e.self:GetHateTop();
+		if cur_target.valid and cur_target:IsClient() then
+			local client = cur_target:CastToClient();
+			client:MovePCInstance(206, instance_id, -248,-241,3.13,384);
+		end
 
 		eq.stop_timer(e.timer);
 		eq.set_timer("banish",math.random(15,30) * 1000);
-
-		if cur_target.valid and not cur_target:IsPet() then
-			cur_target:MovePCInstance(206, instance_id, -248,-241,3.13,384);
-		end
 	end
 end
