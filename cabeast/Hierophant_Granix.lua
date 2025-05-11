@@ -45,6 +45,7 @@ function event_trade(e)
 			e.self:Say("You have done well " .. e.other:GetName() .. ". Perhaps you can help clear these troubling dreams from my tired aging mind. Commune with the spirits of our Ancestors and learn from them. Never forget that the ultimate power comes from knowledge. The ancients are privy to much knowledge that mortals will never see. Should you be granted enlightenment from our ancestors, share your knowledge with me so that we may use this knowledge for the benefit of our brethren. I will continue to study the [dreams] that cloud my mind.");
 			e.other:SetBucket("Shaman_Cudgel", "7");	-- Flag: SkyIron Cudgel of the Arisen
 			e.other:Message(MT.Yellow, "You have received a quest flag.");
+			e.other:SummonItem(5148)
 			e.other:QuestReward(e.self,{exp = 10000});
 		end
 	end
