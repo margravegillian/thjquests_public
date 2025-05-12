@@ -158,7 +158,6 @@ sub EVENT_SPAWN {
         return;
     }
 
-    plugin::CheckSpawnWaypoints();
     
     if ($instanceversion > 0) {        
         if ($npc->GetName() =~ /Echo_of_the_Past/) {
