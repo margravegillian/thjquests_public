@@ -398,6 +398,7 @@ function event_say(e)
 			e.self:Message(MT.Guild,string.format("- [%s] -",eq.say_link("tb_p4",false,"Phase 4")));
 			e.self:Message(MT.Guild,string.format("- [%s] -",eq.say_link("tb_p5",false,"Phase 5")));
 			e.self:Message(MT.Guild,string.format("- [%s] -",eq.say_link("tb_p6",false,"Phase 6")));
+			e.self:Message(MT.Guild,string.format("- [%s] -",eq.say_link("tb_p7",false,"Phase 7")));
 		elseif e.message:find("tb_p1") then
 			eq.get_zone():DeleteVariable("p3wave");
 			eq.get_zone():SetVariable("Phase", "0")
@@ -458,6 +459,7 @@ function event_say(e)
 		elseif e.message:find("tb_p6") then
 			eq.get_zone():DeleteVariable("p3wave");
 			eq.get_zone():SetVariable("Phase", "5")
+			eq.get_zone():SetVariable("Quarm", "0")
 			ResetLockouts(99);
 			SetLockouts(1);
 			SetLockouts(2);
@@ -466,6 +468,26 @@ function event_say(e)
 			SetLockouts(5);
 			ZoneReset(e);
 			e.self:Message(MT.Lime,"[Phase 6 Loading]");
+		elseif e.message:find("tb_p7") then
+			eq.get_zone():DeleteVariable("p3wave");
+			eq.get_zone():SetVariable("Phase", "5")
+			eq.get_zone():SetVariable("Quarm", "1")
+			eq.get_zone():SetVariable("Zeb_Weakened", "0")
+			ResetLockouts(99);
+			SetLockouts(1);
+			SetLockouts(2);
+			SetLockouts(3);
+			SetLockouts(4);
+			SetLockouts(5);
+			ZoneReset(e);
+			eq.depop_all(223214)
+			if not eq.is_npc_spawned({223213}) then
+				eq.spawn2(223213,0,0,175,-1205,5.0,385.5);
+			end
+			if not eq.is_npc_spawned({223214}) then
+				eq.spawn2(223214,0,0,175,-1205,5.0,385.5);
+			end
+			e.self:Message(MT.Lime,"[Phase 7 Loading]");
 		elseif e.message:find("tb_reset") then
 			ZoneReset(e);
 			e.self:Message(MT.Lime,"[Zone Repop Complete]");
