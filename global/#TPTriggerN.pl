@@ -7,10 +7,17 @@ sub EVENT_SPAWN {
 }
 
 sub EVENT_ENTER {    
+    my $limit = $client->GetBucket("waypoint_rate_limit") | "";
+
+    if ($limit) {
+        return;
+    }
+
     if ($client->WaypointUnlock($zonesn)) {
         $client->Message(263, "This place seems familiar. You are sure to remember it later.");
     } else {
         $client->Message(263, "You know this place well.");
-    }    
-}
+    }
 
+    $client->SetBucket("waypoint_rate_limit", "true", "60s");
+}
