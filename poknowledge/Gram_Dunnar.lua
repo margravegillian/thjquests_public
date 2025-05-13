@@ -90,7 +90,7 @@ function event_say(e)
 				local item_id = 2035000 + class_id
 				if e.other:HasItem(item_id) then
 					e.self:Say("It looks like you already have a figurine.")
-					return
+				--	return
 				else
 					e.other:SummonFixedItem(item_id)
 				end
