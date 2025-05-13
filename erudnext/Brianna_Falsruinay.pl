@@ -4,10 +4,10 @@ sub EVENT_SAY {
 	quest::say("Hello Traveler, I am afraid I don't recognize you to be a local around these parts although I could have been buried in my work. I have been quite busy since [Elisi] turned up missing.");
  }
  if($text =~ /Elisi/i) {
-	quest::say("Elisi Nasin is a very well known enchanter and courier from Erudin. It is part of her trade to travel to Qeynos and share knowledge with the residents of the Order of Three. She often travels once or twice a month to deliver and pick up her most recent workings. However, she still has not returned from her most recent [travel]. We fear the worst for her; pirates have been rampant around these parts lately. We should send [someone to Qeynos] soon but have not had the time to do so.");
+	quest::say("Elisi Nasin is a very well-known enchanter and courier from Erudin. It is part of her trade to travel to Qeynos and share knowledge with the residents of the Order of Three. She often travels once or twice a month to deliver and pick up her most recent workings. However, she still has not returned from her most recent travel. We fear the worst for her—pirates have been rampant around these parts lately. We should send [someone to Qeynos] soon, but have not had the time to do so.");
  }
- if($text =~ /travel Qeynos/i) { 
-   quest::say("Your offer is quite gracious Tuppen, I do have a good feeling about you. If you wish to help us figure out what has happened to Elisi please travel to Qeynos. I believe the person she used to exchange magic with was named Jalorin. He is a member of the Order of Three so you should be able to find him there. Present him with this medal so that he may know you are sent from us. Please return to me if you should discover anything about Elisi's disappearance.");
+ if($text =~ /someone to Qeynos/i) { 
+   quest::say("Your offer is quite gracious $name, I do have a good feeling about you. If you wish to help us figure out what has happened to Elisi please travel to Qeynos. I believe the person she used to exchange magic with was named Jalorin. He is a member of the Order of Three so you should be able to find him there. Present him with this medal so that he may know you are sent from us. Please return to me if you should discover anything about Elisi's disappearance.");
    quest::summonitem(21971); # Item: Tarnished Erudin Medal
  }
  if ($text=~/still willing to help/i) {
