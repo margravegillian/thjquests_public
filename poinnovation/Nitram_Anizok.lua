@@ -10,6 +10,15 @@ function event_spawn(e)
 	end
 end
 
+function event_death_complete(e)
+        local walking_variable = tonumber(e.self:GetEntityVariable("Walking")) or 0
+        local won_variable = tonumber(e.self:GetEntityVariable("Won")) or 0
+        if walking_variable == 1 and won_variable == 0 then
+                eq.spawn2(206033, 0, 0, 974, 1532, -35, 0) -- Repop him if he dies during escort before its over
+        end
+end
+
+
 function event_say(e)
 	local walking_variable = tonumber(e.self:GetEntityVariable("Walking")) or 0
 	local won_variable = tonumber(e.self:GetEntityVariable("Won")) or 0
