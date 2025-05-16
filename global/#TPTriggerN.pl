@@ -13,7 +13,7 @@ sub EVENT_ENTER {
         return;
     }
 
-    if ($client->WaypointUnlock($zonesn)) {
+    if ($client->UnlockWaypoint($zonesn)) {
         $client->Message(263, "This place seems familiar. You are sure to remember it later.");
     } else {
         $client->Message(263, "You know this place well.");
