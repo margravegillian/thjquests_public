@@ -382,7 +382,30 @@ sub EVENT_CAST_ON {
     );
     if (grep { $_ == $spell_id } @spell_ids) {
         foreach my $id (@spell_ids) {
-            next if $id == $spell_id; # Skip the matched spell_id
+            next if $id == $spell_id;
+            $client->BuffFadeBySpellID($id);
+        }
+    }
+    
+	# Make Cryomancy and Pyromancy Mutually exclusive
+    # Pyromancy
+    my @Pyromancy = (
+        8406, 8407, 8408
+    );
+    if (grep { $_ == $spell_id } @Pyromancy) {
+        foreach my $id (@Pyromancy) {
+            next if $id == $spell_id;
+            $client->BuffFadeBySpellID($id);
+        }
+    }
+    
+    # Cryomancy
+    my @Cryomancy = (
+        11103, 11104, 1105
+    );
+    if (grep { $_ == $spell_id } @Cryomancy) {
+        foreach my $id (@Cryomancy) {
+            next if $id == $spell_id;
             $client->BuffFadeBySpellID($id);
         }
     }
