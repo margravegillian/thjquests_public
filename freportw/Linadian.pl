@@ -15,7 +15,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match two 13917 - Deathfist Shoulderpads, two 13916 - Deathfist Slashed Belt, and 10 gold
-	if (plugin::takeItemsCoin(0, 0, 10, 0, 13917 => 2, 13916 => 2)) {
+	if (plugin::check_handin(\%itemcount, 13917 => 2, 13916 => 2, "gold" => 10)) {
 		quest::say("Grand doing business with you. Hold your nose. I can never get rid of the Orc stench of the vests. That is why the other merchants do not pay me much for them.");
 		#:: Ding!
 		quest::ding();
@@ -30,7 +30,7 @@ sub EVENT_ITEM {
 		quest::exp(150);
 	}
 	#:: Match two 13319 - Crushbone Shoulderpads, two 13318 - Crushbone Belt, and 10 gold
-	elsif (plugin::takeItemsCoin(0, 0, 10, 0, 13319 => 2, 13318 => 2)) {
+	elsif (plugin::check_handin(\%itemcount, 13319 => 2, 13318 => 2, "gold" => 10)) {
 		quest::say("Grand doing business with you. Hold your nose. I can never get rid of the Orc stench of the vests. That is why the other merchants do not pay me much for them.");
 		#:: Ding!
 		quest::ding();

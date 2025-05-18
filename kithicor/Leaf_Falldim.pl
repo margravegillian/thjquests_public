@@ -24,15 +24,15 @@ sub EVENT_ITEM {
 		quest::faction(324,-60); # unkempt druids
 		quest::exp(10000);		
     }
-	elsif(plugin::takeItemsCoin(0,0,2000,0, 12305 => 1, 12306 => 1)) {
-		quest::say("Here are your boots.");
-		quest::summonitem(3192); # Item: Ivy Etched Boots
-		quest::say("Very good, you have brought justice to these lands.");
-		quest::faction(269,+30); # kithicor residence
-		quest::faction(302,+30); # protectors of the pine
-		quest::faction(272,+30); # jaggedpine treefolk
-		quest::faction(324,-60); # unkempt druids
-		quest::exp(10000);		
+    elsif(plugin::check_handin(\%itemcount, 12305 => 1, 12306 => 1, "gold" => 2000)) {
+        quest::say("Here are your boots.");
+        quest::summonitem(3192); # Item: Ivy Etched Boots
+        quest::say("Very good, you have brought justice to these lands.");
+        quest::faction(269,+30); # kithicor residence
+        quest::faction(302,+30); # protectors of the pine
+        quest::faction(272,+30); # jaggedpine treefolk
+        quest::faction(324,-60); # unkempt druids
+        quest::exp(10000);        
     }
     elsif(plugin::check_handin(\%itemcount, 10059 => 1, 12328 => 1)) {
 		quest::say("Here are your leggings.");

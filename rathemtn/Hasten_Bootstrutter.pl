@@ -39,7 +39,7 @@ sub EVENT_ITEM {
 	#:: Let's MultiqQuest!
 	plugin::mq_process_items(\%itemcount);
 	#:: Match a 7100 - Shadowed Rapier and 12268 - Ring of the Ancients and 3250 gold
-	if (plugin::takeItemsCoin(0,0,3250,0, 7100 => 1, 12268 => 1)) {
+	if (plugin::check_handin(\%itemcount, 7100 => 1, 12268 => 1, "gold" => 3250)) {
 		quest::say("The time to trade has come!! I am now rich and you are now fast. Take the Journeyman Boots and run like the wind.");
 		#:: Ding!
 		quest::ding();
@@ -53,7 +53,7 @@ sub EVENT_ITEM {
 		$gold = 0;
 	}
 	#:: Match a 7100 - Shadowed Rapier and 3250 gold
-	elsif (plugin::takeItemsCoin(0,0,3250,0, 7100 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 7100 => 1, "gold" => 3250)) {
 		plugin::mq_process_items(7100 => 1);
 		#:: Match a 7100 - Shadowed Rapier and 12268 - Ring of the Ancients
 		if (plugin::check_mq_handin(12268 => 1, 7100 => 1)) {
@@ -73,7 +73,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match a 12268 - Ring of the Ancients and 3250 gold
-	elsif (plugin::takeItemsCoin(0,0,3250,0, 12268 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 12268 => 1, "gold" => 3250)) {
 		plugin::mq_process_items(12268 => 1);
 		#:: Match a 7100 - Shadowed Rapier and 12268 - Ring of the Ancients
 		if (plugin::check_mq_handin(12268 => 1, 7100 => 1)) {

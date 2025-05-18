@@ -16,7 +16,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match a 13394 - Ring of the Dead and 10 gold pieces
-	if (plugin::takeItemsCoin(0, 0, 10, 0, 13394 => 1)) {
+	if (plugin::check_handin(\%itemcount, 13394 => 1, "gold" => 10)) {
 		#:: Match if faction is Kindly or better
 		if ($faction <=3) {
 			quest::say("Here you are, disciple. I have enchanted your ring once more.");

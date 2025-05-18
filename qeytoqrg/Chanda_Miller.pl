@@ -69,7 +69,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match a 13752 - High Quality Bear Skin and 21 gold pieces
-	if (plugin::takeItemsCoin(0, 0, 21, 0, 13752 => 1)) {
+	if (plugin::check_handin(\%itemcount, 13752 => 1, "gold" => 21)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("Oh, good! I can make you a nice new cloak now. Here. Here. Oh, this.. it is a good one. Nice bear fur. Here you go!");
@@ -93,7 +93,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match a 13751 - Medium Quality Bear Skin and 15 gold pieces
-	elsif (plugin::takeItemsCoin(0, 0, 15, 0, 13751 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13751 => 1, "gold" => 15)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("Ohh good.. good! I.. um.. can make.. Oh great. Here you go. I hope you like it. I always um.. try my best. Tell your um.. friends where you got your bear things!");
@@ -117,7 +117,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match a 13750 - Low Quality Bear Skin and 5 gold pieces
-	elsif (plugin::takeItemsCoin(0, 0, 5, 0, 13750 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13750 => 1, "gold" => 5)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("Great. Oh, here, now I can make the.. um.. ok.. here. Yes.. good. I love making bear skin belts. Here you go. I hope you like it.");

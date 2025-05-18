@@ -15,7 +15,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match three 13409 - Froglok Meat and 10 gold
-	if (plugin::takeItemsCoin(0,0,10,0, 13409 => 3)) {
+	if (plugin::check_handin(\%itemcount, 13409 => 3, "gold" => 10)) {
 		quest::say("Bouts time you gets everting!! Here is you Grobb Oven Mittens. Dey good to keep you from hot stuff.");
 		#:: Give a 12211 - Grobb Oven Mittens
 		quest::summonitem(12211);

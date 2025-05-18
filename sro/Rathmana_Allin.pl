@@ -31,7 +31,7 @@ sub EVENT_ITEM {
 		quest::exp(100);
 	}
 	#:: Match a 18808 - Bayle List I, 18809 - Bayle List II, 18810 - Bayle List III, and 20 gold
-	elsif (plugin::takeItemsCoin(0,0,20,0, 18808 => 1, 18809 => 1, 18810 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 18808 => 1, 18809 => 1, 18810 => 1, "gold" => 20)) {
 		quest::say("A simple code. Why do you even bother Rathmana with such child's play? Here is your translation. That was the easiest twenty gold coins I ever earned.");
 		#:: Give a 18961 - Translated Parchment
 		quest::summonitem(18961);

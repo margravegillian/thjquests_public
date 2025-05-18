@@ -21,7 +21,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match three 13953 - Honeycomb and 30 gold pieces
-	if (plugin::takeItemsCoin(0, 0, 30, 0, 13953 => 3)) {
+	if (plugin::check_handin(\%itemcount, 13953 => 3, "gold" => 30)) {
 		quest::say("You are one lucky bixie buster. I just made a batch of honey jum. Here. No waiting for you.  One jar for your good work. Bye, now!");
 		#:: Give item 13952 - Honey Jum
 		quest::summonitem(13952);

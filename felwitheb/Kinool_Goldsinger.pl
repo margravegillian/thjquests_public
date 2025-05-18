@@ -61,7 +61,7 @@ sub EVENT_ITEM {
 		quest::exp(100);
 	}
 	#:: Match a 12333 - Pouch of Gold Dust, a 12334 - Wooden Heart, a 8401 - Trueshot Longbow, and 3000 gold
-	elsif (plugin::takeItemsCoin(0, 0, 3000, 0, 12333 => 1, 12334 => 1, 8401 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 12333 => 1, 12334 => 1, 8401 => 1, "gold" => 3000)) {
 		quest::say("Fine work!! I now reward you with The Rain Caller.");
 		#:: Give item 8402 - Rain Caller
 		quest::summonitem(18402);

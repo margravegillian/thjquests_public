@@ -17,7 +17,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match 50 gold pieces and a 6339 - Blessed Silver Wand
-	if (plugin::takeItemsCoin(0, 0, 50, 0, 6339 => 1)) {
+	if (plugin::check_handin(\%itemcount, 6339 => 1, "gold" => 50)) {
 		#:: Match if faction is Amiable or better
 		if ($faction <= 4) {
 			quest::say("Your silver wand has been fully enchanted. Take it and the pouch of silver dust back to the temple of Ro.");

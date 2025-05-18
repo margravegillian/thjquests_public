@@ -266,7 +266,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match three 12199 - Black Shadow Tunic and two gold
-	elsif (plugin::takeItemsCoin(0,0,2,0, 12199 => 3)) {
+	elsif (plugin::check_handin(\%itemcount, 12199 => 3, "gold" => 2)) {
 		#:: Match if faction is Amiable or better
 		if ($faction <= 4) {
 			quest::say("Hmm... You do good job. You surprise Treskar. Maybe you good after all. Maybe Treskar give you [secret mission]. Maybe not.");

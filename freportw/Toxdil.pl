@@ -23,7 +23,7 @@ sub EVENT_ITEM {
 			quest::exp(15000);
 		}
 		#:: Match two 14017 - Snake Venom Sac and 20 gold pieces
-		elsif (plugin::takeItemsCoin(0, 0, 20, 0, 14017 => 2)) {
+		elsif (plugin::check_handin(\%itemcount, 14017 => 2, "gold" => 20)) {
 			quest::say("Here is your snake venom. May you... shall we say... apply it to good use.");
 			#:: Give item 14016 - Snake venom
 			quest::summonitem(14016);
@@ -33,7 +33,7 @@ sub EVENT_ITEM {
 			quest::exp(100);
 		}
 		#:: Match one 14017 - Snake Venom Sac and 20 gold pieces
-		elsif (plugin::takeItemsCoin(0, 0, 20, 0, 14017 => 2)) {
+		elsif (plugin::check_handin(\%itemcount, 14017 => 2, "gold" => 20)) {
 			quest::say("I require two snake venom sacs and my fee of 20 gold coins before I shall create the snake venom");
 			#:: Return a 14017 - Snake Venom Sac
 			quest::summonitem(14017);

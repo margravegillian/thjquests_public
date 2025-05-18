@@ -67,7 +67,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match a 13755 - High Quality Wolf Skin and 21 gold pieces
-	if (plugin::takeItemsCoin(0, 0, 21, 0, 13755 => 1)) {
+	if (plugin::check_handin(\%itemcount, 13755 => 1, "gold" => 21)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("Here ya go! That should keep ya nice and warm! Be sure to tell all the friends you're going to impress where you got this fine cloak. Although I am sure they probably have heard of me already.");
@@ -91,7 +91,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match a 13754 - Medium Quality Wolf Skin and 15 gold pieces
-	elsif (plugin::takeItemsCoin(0, 0, 15, 0, 13754 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13754 => 1, "gold" => 15)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("They are exquisite, if I do say so myself. Hope they fit.");
@@ -115,7 +115,7 @@ sub EVENT_ITEM {
 		}
 	}
 	#:: Match a 13753 - Low Quality Wolf Skin and 5 gold pieces
-	elsif (plugin::takeItemsCoin(0, 0, 5, 0, 13753 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13753 => 1, "gold" => 5)) {
 		#:: Match if faction is Indifferent or better
 		if ($faction <= 5) {
 			quest::say("I hate working with such low quality hides. They lack the sheen that makes a high quality pelt look so fine! Anyhow, here's your belt.");

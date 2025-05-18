@@ -36,7 +36,7 @@ sub EVENT_SAY {
 
 sub EVENT_ITEM {
 	#:: Match a 13761 - Polar Bear Skin and 5pp
-	if (plugin::takeItemsCoin(0,0,0,5, 13761 => 1)) {
+	if (plugin::check_handin(\%itemcount, 13761 => 1, "platinum" => 5)) {
 		quest::say("Here is your polar bear cloak! It will serve you well and keep you warm even in the coldest conditions. Farewell, friend.");
 		#:: Give a 2912 - Polar Bear Cloak
 		quest::summonitem(12912);
@@ -44,7 +44,7 @@ sub EVENT_ITEM {
 		quest::ding();
 	}
 	#:: Match a 13715 - Werewolf Claws and 75pp
-	elsif (plugin::takeItemsCoin(0,0,0,75, 13715 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13715 => 1, "platinum" => 75)) {
 		quest::say("It has been a long time since I crafted items from werewolves. I hope this aids you in your journeys. Farewell, friend, until we meet again");
 		#:: Give a 2402 - Lupine Claw Gauntlets
 		quest::summonitem(12402); # Lupine Claw Gauntlets
@@ -52,7 +52,7 @@ sub EVENT_ITEM {
 		quest::ding();
 	}
 	#:: Match a 13714 - Werewolf Pelt and 100pp
-	elsif (plugin::takeItemsCoin(0,0,0,100, 13714 => 1)) {
+	elsif (plugin::check_handin(\%itemcount, 13714 => 1, "platinum" => 100)) {
 		quest::say("It has been a long time since I crafted items from werewolves. I hope this aids you in your journeys. Farewell, friend, until we meet again");
 		#:: Give a 2401 - Werewolf Skin Cloak
 		quest::summonitem(12401);

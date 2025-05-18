@@ -30,7 +30,7 @@ sub EVENT_SAY {
 							
 sub EVENT_ITEM {
 	#:: Match 66gp and a 13990 - Bale of Hay
-	if (plugin::takeItemsCoin(0,0,66,0, 13990 => 1)) {
+	if (plugin::check_handin(\%itemcount, 13990 => 1, "gold" => 66)) {
 		quest::say("'Whatsssss thisssss? You sssseek my blessssssssing? Heh heh heh... Very well... CAZIC-THULE! Take this fruit of Karana into horror'sss dark embrace. Fear and death made manifesssssst. A harvesssst of terror! Here, take your gift of blood and sssstraw. Use its dark powersssss in the name of the Fear Lord!' ");
 		#:: Give a 14320 - Sack of Cursed Hay
 		quest::summonitem(14320);
