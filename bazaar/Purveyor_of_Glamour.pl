@@ -1,6 +1,15 @@
 sub EVENT_ITEM { 
     my $clientName = $client->GetCleanName();
     my $dbh = plugin::LoadMysql();
+
+	if (plugin::check_handin(\%itemcount, 24152 => 1)) {
+		my $random_result = get_random_glamour_of_any_type();
+		if ($random_result) {
+			plugin::Whisper("Ah, recycling old glamours! An environmentally conscious choice, $clientName. Let me craft something new from these..."); 
+			$client->SummonItem($random_result);
+			return;
+		}
+	}
     
     # First, check if we have items being handed in that are glamours
     my %glamour_handin;  # Will hold the item IDs and quantities for check_handin
