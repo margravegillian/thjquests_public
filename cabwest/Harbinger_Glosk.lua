@@ -17,7 +17,8 @@ function event_say(e)
 		e.self:Emote("halts his chanting. 'You dare to interrupt me? You had best have a good reason. I care not for small talk.'");
 	elseif e.message:findi("keepers grotto") then
 		e.self:Say("Keepers Grotto is where you shall find the Keepers. They study and scribe the spells of our dark circle. The grotto is not far from here, near the arena called the Gauntlet.");
-	elseif faction then
+	end
+	if faction then
 		if e.other:GetBucket("Skull_Cap") == "6" then
 			if e.message:findi("new revenant") then
 				e.self:Emote("Harbinger Glosk ceases his chanting and gazes into your mind. 'Yes. You are. You shall do as I command. Take this. It is incomplete and must be ready for the emperor within the half season. You must find the [four missing gems]. When you have them, you will have to quest for the [" .. eq.say_link("forge of dalnir",false,"Grand Forge of Dalnir") .. "]. Within its fire, all shall combine. Return the sceptre to me with your revenant skullcap. Go.'")
@@ -28,6 +29,14 @@ function event_say(e)
 				e.self:Say("The missing sceptre gems are: an Eye of Rokgus, a Gem of Yet to Come, a Heart of Torsis and the Crown Jewel of Ganak.");
 			elseif e.message:findi("forge of dalnir") then
 				e.self:Emote("scratches his chin. 'I know little of it other than that it once belonged to the ancient Haggle Baron, Dalnir. From what I have read, its fires require no skill, but will melt any common forge hammer used. Dalnir was said to have called upon the ancients for a hammer which could tolerate the magical flames.'");
+			end
+		elseif e.other:GetBucket("Skull_Cap") == "7" then
+			if e.message:findi("hail") then
+				e.self:Say("Welcome Sorcerer. There is nothing more we can do for you here. Perhaps you should seek an outcast who hides as a hermit.")
+			end
+		elseif e.other:GetBucket("Skull_Cap") == "8" then
+			if e.message:findi("hail") then
+				e.self:Say("Welcome Necromancer. I can do nothing more to advance your training in our order... Not since Ixpacan took our volumes from Charasis.");
 			end
 		elseif e.other:GetBucket("Skull_Cap") == "9" then
 			if e.message:findi("gem of reflection") then

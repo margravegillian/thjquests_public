@@ -1,7 +1,8 @@
 function event_say(e)
 	local faction = e.other:GetFaction(e.self) <= 4
+	local bucket = tonumber(e.other:GetBucket("Skull_Cap")) or 0
 
-	if faction and e.other:GetBucket("Skull_Cap") == "2" then
+	if faction and bucket == 2 then
 		if e.message:findi("hail") then
 			e.self:Say("You are on the grounds of the Brood of Kotiz. If you do not belong, you must leave at once. There shall be no [third rank skullcap] for you.");
 		elseif e.message:findi("third rank skullcap") then
@@ -16,6 +17,20 @@ function event_say(e)
 			e.self:Say("Embalming fluid is created through brewing, but do not drink it!! You can learn about the process of brewing on our grounds.");
 		elseif e.message:findi("speak to the dead") then
 			e.self:Say("How dare you ask of such a thing! I am a Master of the Necromantic Arts. If you wish to have me conjure this spirit you must first seek out a traitor to our cause. His name is Ixzec. He can be found roaming with a group of renegades in a jungle not far from here. Return with his head and some items from the soul you want summoned and I will aid you in your request.");
+		end
+	elseif faction then
+		if bucket == 1 or bucket == 0 then
+			if e.message:findi("hail") then
+				e.self:Say("Quite busy!! Quite busy!! Things must be done. See Master Xydox if you wish to help!!")
+			end
+		elseif bucket >= 3 then
+			if e.message:findi("hail") then
+				e.self:Say("I did not expect you to return. You have made me lose a bet with one of the other apprentices. Seeing as you have completed my tasks, I direct you to Master Kyvix.")
+			end
+		else
+			if e.message:findi("hail") then
+				e.self:Say("You are on the grounds of the Brood of Kotiz. You do not belong. Leave while you can.");
+			end
 		end
 	end
 end

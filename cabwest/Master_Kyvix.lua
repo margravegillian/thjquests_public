@@ -1,29 +1,74 @@
 function event_say(e)
-	local faction = e.other:GetFaction(e.self) <= 4
+    -- Get raw faction level (1 = ally ... 5 = neutral/indifferent ... higher = worse)
+    local fac = e.other:GetFaction(e.self)
+    local bucket = tonumber(e.other:GetBucket("Skull_Cap")) or 0
+    local msg = e.message:lower()
 
-	if faction and e.other:GetBucket("Skull_Cap") == "3" then
-		if e.message:findi("hail") then
-			e.self:Say("Quite busy!! Quite busy!! Things must be done. [New components] to be collected!!");
-		elseif e.message:findi("New components") then
-			e.self:Say("Yes, yes!! I will need components from beyond the gates. I must find an [apprentice of the third rank].");
-		elseif e.message:findi("apprentice of the third rank") then
-			e.self:Say("If you truly be an apprentice of the third circle, then there is a Dark Binder skullcap to be earned. Take this sack and fill it with a creeper cabbage, a heartsting telson with venom, brutling choppers and a scalebone femur. When they are combined within the sack, you may return it to me with your third rank skullcap and and we shall bid farewell to the title, apprentice.");
-			if not e.other:HasItem(17024) then	-- Don't allow hoarding
-				e.other:SummonItem(17024);		-- Item: Brood Sack
-			end
-		end
-	elseif faction and e.other:GetBucket("Skull_Cap") == "4" then
-		if e.message:findi("true mission") then
-			e.self:Say("I have been waiting for a Nihilist to return. His name was Ryx and I fear his love of ale and the high seas has kept him from his mission. All I want you to do is find him. He should be disguised as a worker and he will give you a tome to bring to me. Return it with your Dark Binder Cap. I am sure that is simple enough for one as simple as you. Be sure to give him this.");
-			if not e.other:HasItem(12848) then	-- Don't allow hoarding
-				e.other:SummonItem(12848);		-- Item: A Spectacle
-			end
-		end
-	elseif faction and e.other:GetBucket("Skull_Cap") == "5" then
-		if e.message:findi("hail") then
-			e.self:Say("I did not expect you to return. You have made me lose a bet with one of the other scholars. Seeing as you have delivered the tome, I shall not harm you, but rather welcome you into the rank of occultist. Now go see Keeper Rott and tell him you are [the chosen occultist]");
-		end
-	end
+    -- Low-faction or neutral players get a dismissive greeting
+    if fac > 4 then
+        if msg:find("hail") then
+            e.self:Say("Begone, scum! I have no time for traitors and heretics.")
+        end
+        return
+    end
+
+    -- Fac == 5 (if you really need a special case for exactly 5)
+    if fac == 5 then
+        if msg:find("hail") then
+            e.self:Say("Quite busy!! Quite busy!! Things must be done. I have no time for you!!")
+        end
+        return
+    end
+
+    -- Now handle quest stages by bucket
+    if bucket == 0 or bucket == 1  then
+        if msg:find("hail") then
+            e.self:Say("Quite busy!! Quite busy!! Things must be done. See Master Xydox if you wish to help!!")
+        end
+
+    elseif bucket == 2 then
+        if msg:find("hail") then
+            e.self:Say("Quite busy!! Quite busy!! Things must be done. See Master Rixiz if you wish to help!!")
+        end
+    elseif bucket == 3 then
+        if msg:find("hail") then
+            e.self:Say("Quite busy!! Quite busy!! Things must be done. [New components] to be collected!!")
+        elseif msg:find("new components") then
+            e.self:Say("Yes, yes!! I will need components from beyond the gates. I must find an [apprentice of the third rank].")
+        elseif msg:find("apprentice of the third rank") then
+            e.self:Say("If you truly be an apprentice of the third circle, then there is a Dark Binder skullcap to be earned. Take this sack and fill it with a creeper cabbage, a heartsting telson with venom, brutling choppers and a scalebone femur. When they are combined within the sack, you may return it to me with your third rank skullcap and we shall bid farewell to the title, apprentice.")
+            if not e.other:HasItem(17024) then
+                e.other:SummonItem(17024)  -- Brood Sack
+            end
+        end
+    elseif bucket == 4 then
+        -- Bucket 4: breadcrumb and true mission
+        if msg:find("hail") then
+            e.self:Say("Ah, you have returned. When you are ready, ask me about your [true mission].")
+        elseif msg:find("true mission") then
+            e.self:Say("I have been waiting for a Nihilist to return. His name was Ryx and I fear his love of ale and the high seas has kept him from his mission. All I want you to do is find him. He should be disguised as a worker and he will give you a tome to bring to me. Return it with your Dark Binder Cap. I am sure that is simple enough for one as simple as you. Be sure to give him this.")
+            if not e.other:HasItem(12848) then
+                e.other:SummonItem(12848)  -- A Spectacle
+            end
+        end
+    elseif bucket == 5 then
+        if msg:find("hail") then
+            e.self:Say("I did not expect you to return. You have made me lose a bet with one of the other scholars. Seeing as you have completed the tasks, I shall not harm you but rather welcome you into the rank of occultist. Now go see Keeper Rott and tell him you are [the chosen occultist].")
+        end
+    elseif bucket == 6 then
+        if msg:find("hail") then
+	    e.self:Say("Welcome, Revenant " .. e.other:GetName() .. ". The Harbinger awaits you. He seeks a [new revenant].");
+        end
+    elseif bucket == 7 then
+        if msg:find("hail") then
+            e.self:Say("Welcome Sorcerer. There is nothing more we can do for you here. Perhaps you should seek an outcast who hides as a hermit.")
+        end
+    elseif bucket == 8 then
+        if msg:find("hail") then
+            e.self:Say("Welcome Necromancer. There is only one who can help you advance in the dark art... Ixpacan")
+        end
+    end
+
 end
 
 function event_trade(e)

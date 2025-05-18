@@ -1,21 +1,30 @@
 function event_say(e)
 	local faction = e.other:GetFaction(e.self) <= 4
+        local bucket = tonumber(e.other:GetBucket("Skull_Cap")) or 0
 
 	if faction then
-		if e.message:findi("hail") then
-			e.self:Say("What is it you seek within the tower? Could it be that you are a new apprentice? If so, you are required to don the [apprentice skullcap]");
-		elseif e.message:findi("apprentice") then
-			e.self:Say("All new members of the Brood of Kotiz are required to don the apprentice skullcap. To earn one, a new apprentice is required to fetch four brains for further experiments. Not just any four brains, mind you, but the brains of [sarnak] hatchlings.");
-		elseif e.message:findi("sarnak") then
-			e.self:Say("Sarnak ? Do not speak loudly, that name. If you seek information on the sarnak, read the tome of this tower. The tower librarian should be found within.");
-		elseif e.other:GetBucket("Skull_Cap") == "1" then
-			if e.message:findi("second rank skullcap") then
+		if bucket == 0 or bucket == 9 then
+			if e.message:findi("hail") then
+				e.self:Say("What is it you seek within the tower? Could it be that you are a new apprentice? If so, you are required to don the [apprentice skullcap]");
+			elseif e.message:findi("apprentice") then
+				e.self:Say("All new members of the Brood of Kotiz are required to don the apprentice skullcap. To earn one, a new apprentice is required to fetch four brains for further experiments. Not just any four brains, mind you, but the brains of [sarnak] hatchlings.");
+			elseif e.message:findi("sarnak") then
+				e.self:Say("Sarnak ? Do not speak loudly, that name. If you seek information on the sarnak, read the tome of this tower. The tower librarian should be found within.");
+			end
+		elseif bucket == 1 then
+			if e.message:findi("hail") then
+				e.self:Say("Hello Apprentice. Do you seek the [second rank skullcap]");
+			elseif e.message:findi("second rank skullcap") then
 				e.self:Say("Looking for the second rank skullcap ? Look no further, but be prepared to earn it. I seek a [faded tapestry]. Now, too, so do you.");
 			elseif e.message:findi("faded tapestry") then
 				e.self:Say("I have heard reports of such a thing found upon Sarnak hatchlings. They must have scampered from the safety of their dwelling with their master's property. I would like to see this tapestry, but only when it has been mended. I need find a necromancer who is [adept at tailoring].");
 			elseif e.message:findi("adept at tailoring") then
 				e.self:Say("If you are a member of the Brood and wish to assist you may seek out this tapestry. Find the Torn and Ripped pieces and take them both to a sewing kit. Return with the mended tapestry and your first rank skullcap and I shall see that you are rewarded with coin and a second rank skullcap");
 			end
+		elseif bucket == 2 then
+			e.self:Say("I did not expect you to return. You have made me lose a bet with one of the other apprentices. Seeing as you have completed my tasks, I direct you to Master Rixiz.")
+		elseif bucket >= 3 then
+			e.self:Say("I did not expect you to return. You have made me lose a bet with one of the other apprentices. Seeing as you have completed my tasks, I direct you to Master Kyvix.")
 		end
 	else
 		e.self:Say("When you have shown more devotion to the Brood of Kotiz, we can discuss such things.");

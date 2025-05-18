@@ -454,6 +454,24 @@ sub EVENT_SAY {
             } else {
                 $client->Message(13, "Invalid input. Please provide a single numeric argument.");
             }
+          } elsif ($text=~/#setbucket\s+(\S+)(?:\s+(\d))?/i) {
+            my ($flag, $number) = ($1, $2 // 1);  # Default $number to 1 if not provided
+            my $tar_client = $client->GetTarget();
+            if ($tar_client && $tar_client->IsClient()) {
+               $tar_client = $tar_client->CastToClient();
+            } else {
+                return;
+            }
+            if ($number >= 0 && $number <= 9) {
+                my $client_name = $tar_client->GetCleanName();
+                $tar_client->SetBucket("$flag", "$number");
+                $tar_client->Message(4, "You completed a quest!");
+                $client->Message(4, "Writing to acct ID=".$tar_client->AccountID());
+                $client->Message(4, "Writing to char ID=".$tar_client->CharacterID());
+                $client->Message(4, "'$flag' bucket set to '$number' for $client_name.");
+            } else {
+                $client->Message(13, "Invalid number. Please provide a number between 0 and 9.");
+            }
         } elsif ($text=~/#setpopflag\s+(\S+)(?:\s+(\d))?/i) {
             my ($flag, $number) = ($1, $2 // 1);  # Default $number to 1 if not provided
 
