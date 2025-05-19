@@ -71,9 +71,9 @@ sub handle_cast_check {
     quest::debug("Beneficial spells: " . scalar(@beneficial_spells) . ", Harmful spells: " . scalar(@harmful_spells));
     
     # First try to cast a beneficial spell on owner, group members, or pets
-    #if (try_cast_beneficial_spell($owner, @beneficial_spells)) {
-    #    return; # Spell was cast, done for this round
-    #}
+    if (try_cast_beneficial_spell($owner, @beneficial_spells)) {
+        return; # Spell was cast, done for this round
+    }
     
     # If no beneficial spell was cast and we have a target, try harmful spells
     if ($target && try_cast_harmful_spell($target, @harmful_spells)) {
@@ -381,7 +381,8 @@ sub try_cast_beneficial_spell {
             }
         }
     }
-    
+
+	return 0;    
     # If no healing was needed or possible, try buffing targets
     # Buffing order: owner, group members, pets
     
@@ -516,6 +517,8 @@ sub try_buff_target {
     } @buff_spells;
     
     quest::debug("Found " . scalar(@sorted_buff_spells) . " buff spells to try");
+
+	#not doing this yet
     
     # Categorize buffs for better logging
     my @death_save_buffs = grep { quest::IsFullDeathSaveSpell($_) } @sorted_buff_spells;
