@@ -71,9 +71,9 @@ sub handle_cast_check {
     quest::debug("Beneficial spells: " . scalar(@beneficial_spells) . ", Harmful spells: " . scalar(@harmful_spells));
     
     # First try to cast a beneficial spell on owner, group members, or pets
-    if (try_cast_beneficial_spell($owner, @beneficial_spells)) {
-        return; # Spell was cast, done for this round
-    }
+    #if (try_cast_beneficial_spell($owner, @beneficial_spells)) {
+    #    return; # Spell was cast, done for this round
+    #}
     
     # If no beneficial spell was cast and we have a target, try harmful spells
     if ($target && try_cast_harmful_spell($target, @harmful_spells)) {
