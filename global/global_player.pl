@@ -358,6 +358,28 @@ sub EVENT_COMBINE_SUCCESS {
     }
 }
 
+our %SWAP_ITEM_MAP = (
+    # Gauntlet and Hammer swaps
+    11668 => 11669,
+    11669 => 11668,
+    
+    # Epic swaps
+    14383 => 800000,
+    10099 => 800001,
+    800000 => 14383,
+    800001 => 10099,
+);
+
+our %CYCLE_ITEM_MAP = (
+    2017731 => 2017734,
+    2017734 => 2017735,
+    2017735 => 2017815,
+    2017815 => 2017816,
+    2017816 => 2017817,
+    2017817 => 2017818,
+    2017818 => 2017731,
+);
+
 sub EVENT_ITEM_CLICK_CAST_CLIENT {
     if (plugin::CustomEventItemClickCastEntry()) {
         return;
@@ -367,10 +389,10 @@ sub EVENT_ITEM_CLICK_CAST_CLIENT {
         plugin::AddTitleFlag($item_id, $client);
     }
 
-    plugin::swap_items($client, $item_id, $slot_id);
-
-    if ($spell_id == 36874) {
-        plugin::cycle_time_items($client, $item_id, $slot_id);
+    my $swapped = plugin::transform_item($client, $item_id, $slot_id, \%SWAP_ITEM_MAP, 0);
+    
+    if (!$swapped && $spell_id == 36874) {
+        plugin::transform_item($client, $item_id, $slot_id, \%CYCLE_ITEM_MAP, 1);
     }
 }
 

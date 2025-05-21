@@ -200,115 +200,47 @@ sub get_slot_by_item {
 	return 0;
 }
 
-sub swap_items {
-    my ($client, $item_id, $slot_id) = @_;
-
-    # Normalize item ID to its base form
-    my $normalized_id = $item_id % 1000000;
-    my $rank = int($item_id / 1000000);
-
-    # Define the mapping of source to destination items for swaps
-    my %item_swaps = (
-        # Gauntlet and Hammer swaps
-        11668 => 11669,
-        11669 => 11668,
-
-        # Epic swaps
-        14383 => 800000,
-        10099 => 800001,
-        800000 => 14383,
-        800001 => 10099,
-    );
-
-    # Bail out if the item is not in the swap list
-    return unless exists $item_swaps{$normalized_id};
-
-    # Determine the destination item
-    my $dst_item = $item_swaps{$normalized_id} + ($rank * 1000000);
-
-    # Retrieve augment data for the current item
-    my @augments = (
-        $client->GetAugmentIDAt($slot_id, 0),
-        $client->GetAugmentIDAt($slot_id, 1),
-        $client->GetAugmentIDAt($slot_id, 2),
-        $client->GetAugmentIDAt($slot_id, 3),
-        $client->GetAugmentIDAt($slot_id, 4),
-        $client->GetAugmentIDAt($slot_id, 5),
-    );
-
-    # Replace invalid augment values (-1) with 0
-    foreach my $augment (@augments) {
-        $augment = 0 if $augment == -1;
-    }
-
-    # Construct item data with augments and attunement
-    my $item_data = {
-        item_id       => $dst_item,
-        charges       => 1,
-        augment_one   => $augments[0],
-        augment_two   => $augments[1],
-        augment_three => $augments[2],
-        augment_four  => $augments[3],
-        augment_five  => $augments[4],
-        augment_six   => $augments[5],
-        attuned       => 1,
-    };
-
-    # Add the swapped item with augments
-    $client->AddItem($item_data);
-}
-
-sub cycle_time_items {
-    my ($client, $item_id, $slot_id) = @_;
+sub transform_item {
+    my ($client, $item_id, $slot_id, $transform_map, $is_cycle) = @_;
+    my $lookup_id = $item_id;
+    my $rank = 0;
     
-    # Define item cycle order
-    my %next_item = (
-        2017731 => 2017734,
-        2017734 => 2017735,
-        2017735 => 2017815,
-        2017815 => 2017816,
-        2017816 => 2017817,
-        2017817 => 2017818,
-        2017818 => 2017731,
-    );
-    
-    # If current item isn't in our cycle, bail out
-    return unless exists $next_item{$item_id};
-    
-    # Get the next item in the cycle
-    my $dst_item = $next_item{$item_id};
-    
-    # Retrieve augment data for the current item
-    my @augments = (
-        $client->GetAugmentIDAt($slot_id, 0),
-        $client->GetAugmentIDAt($slot_id, 1),
-        $client->GetAugmentIDAt($slot_id, 2),
-        $client->GetAugmentIDAt($slot_id, 3),
-        $client->GetAugmentIDAt($slot_id, 4),
-        $client->GetAugmentIDAt($slot_id, 5),
-    );
-    
-    # Replace invalid augment values (-1) with 0
-    foreach my $augment (@augments) {
-        $augment = 0 if $augment == -1;
+    if (!$is_cycle) {
+        $lookup_id = $item_id % 1000000;
+        $rank = int($item_id / 1000000);
     }
     
-    # Remove the current item
+    return unless exists $transform_map->{$lookup_id};
+    
+    my $dst_item = $transform_map->{$lookup_id};
+    
+    if (!$is_cycle && $rank > 0) {
+        $dst_item += ($rank * 1000000);
+    }
+    
+    my @augments = ();
+    for my $i (0..5) {
+        my $aug_id = $client->GetAugmentIDAt($slot_id, $i);
+        push @augments, ($aug_id == -1) ? 0 : $aug_id;
+    }
+    
     $client->DeleteItemInInventory($slot_id, 0, 1);
     
-    # Construct item data with augments and attunement
     my $item_data = {
         item_id       => $dst_item,
         charges       => 1,
-        augment_one   => $augments[0],
-        augment_two   => $augments[1],
-        augment_three => $augments[2],
-        augment_four  => $augments[3],
-        augment_five  => $augments[4],
-        augment_six   => $augments[5],
         attuned       => 1,
     };
     
-    # Add the new item with augments
     $client->AddItem($item_data);
+    
+    if ($new_slot_id >= 0) {
+        for my $i (0..5) {
+            if ($augments[$i] > 0) {
+                $client->SummonFixedItem($augments[$i], 1, 1);
+            }
+        }
+    }
+    
+    return $dst_item;
 }
