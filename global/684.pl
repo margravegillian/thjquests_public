@@ -303,7 +303,7 @@ sub get_group_members_and_pets {
             my $member = $group->GetMember($count);
             
             # Skip if member is the owner (already added)
-            if ($member->GetID() != $owner->GetID()) {
+            if ($member && $member->GetID() != $owner->GetID()) {
                 quest::debug("Adding group member: " . $member->GetName());
                 push(@targets, $member);
                 
