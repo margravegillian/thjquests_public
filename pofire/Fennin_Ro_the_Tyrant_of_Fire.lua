@@ -1,16 +1,4 @@
-function event_spawn(e)
-	eq.set_timer("Depop", 60 * 60 * 1000) -- 1 Hour
-end
-
-function event_timer(e)
-	if e.timer == "Depop" then
-		eq.stop_timer("Depop")
-		eq.depop()
-	end
-end
-
 function event_death_complete(e)
-	eq.stop_timer("Depop")
 	eq.zone_emote(1, "Loud cries of hopelessness echo throughout the burning lands. The creatures of Doomfire call out to their master, Fennin Ro the Tyrant of Fire, for his dead body now lies at the feet of the mighty adventurers.")
 	if tostring(eq.get_zone_instance_version()) == eq.get_rule("Custom:StaticInstanceVersion") then -- Only flag in non-respawning dz
 		eq.spawn2(217058, 0, 0, e.self:GetX(), e.self:GetY(), e.self:GetZ(), e.self:GetHeading()) -- Essence_of_Fire
