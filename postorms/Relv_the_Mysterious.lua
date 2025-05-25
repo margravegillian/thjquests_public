@@ -10,6 +10,11 @@ local MAX_WAVES = 3
 
 local wave_count = 0
 
+function event_spawn(e)
+  e.self:SetBodyType(BT.Humanoid, true);
+  e.self:SetTargetable(true);
+end
+
 function MovePlayerGroupOrRaid(player, zone_id, instance_id, x, y, z, h)
   if not player or not player:IsClient() then return end
   local client = player:CastToClient()
